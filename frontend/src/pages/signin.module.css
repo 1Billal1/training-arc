@@ -1,0 +1,128 @@
+/* src/pages/signin.module.css */
+
+.pageContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+  /* REMOVED: font-family to allow global style from App.css to apply */
+}
+
+.formContainer {
+  width: 100%;
+  max-width: 35rem; /* A slightly more standard width */
+  background-color: white;
+  padding: 40px;
+  border-radius: 16px; 
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+
+.title {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  color: #1a202c;
+  margin-bottom: 2.5rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  /* FIX: Added a gap for consistent spacing between all form elements */
+  gap: 1.5rem; 
+}
+
+/* --- NEW: The container for the grouped input fields --- */
+.inputGroup {
+  border-radius: 8px; /* This creates the outer rounded corners */
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05); /* Adds a subtle depth */
+  border: 1px solid #cbd5e0;
+  overflow: hidden; /* Ensures inner sharp corners don't poke out */
+}
+
+/* --- Input Fields to match the image --- */
+.inputField {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 16px;
+  background-color: white;
+  color: #2d3748;
+  /* FIX: Border is now set to none, as the parent .inputGroup has the border */
+  border: none;
+  border-bottom: 1px solid #cbd5e0; /* Separator line between inputs */
+  transition: all 0.2s;
+  /* REMOVED: border-radius from the base class */
+}
+
+/* FIX: This makes sure the last input doesn't have a bottom border line */
+.inputField:last-child {
+  border-bottom: none;
+}
+
+/* REMOVED: The problematic #password ID selector */
+
+.inputField::placeholder {
+  color: #a0aec0;
+}
+
+.inputField:focus {
+  outline: none;
+  /* The z-index makes the focused input pop above the other */
+  position: relative; 
+  z-index: 10;
+  box-shadow: 0 0 0 3px rgba(45, 55, 72, 0.1);
+}
+
+/* --- Button to match the image --- */
+.submitButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  background-color: #f97316; 
+  cursor: pointer;
+  transition: background-color 0.2s;
+  /* REMOVED: margin-top, as the parent form's `gap` now handles this */
+}
+
+.submitButton:hover:not(:disabled) {
+  background-color: #ea580c;
+}
+
+.submitButton:disabled {
+  background-color: #fdba74;
+}
+
+.errorMessage {
+  background-color: #fee2e2;
+  border: 1px solid #f87171;
+  color: #b91c1c;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  text-align: center;
+}
+
+/* Spinner styles remain the same */
+.spinnerContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+  height: 1.25rem;
+  width: 1.25rem;
+}

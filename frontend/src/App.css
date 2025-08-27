@@ -1,42 +1,53 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* src/App.css */
+
+/* --- 1. CSS Reset & Base Styles --- */
+/* This ensures consistent starting points across all browsers. */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* Set the base styles for the entire document */
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  /* This now uses the 'Inter' font we imported in index.html */
+  font-family: 'Inter', sans-serif;
+  color: #1e293b; /* A dark slate color for default text */
+  background-color: #f8f9fa; /* Sets a consistent light gray background for all pages */
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* --- 2. Main App Wrapper --- */
+/* Your .app-container div from App.jsx */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensures the container takes up at least the full screen height */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* --- 3. Default Typography Styles --- */
+/* Provides consistent styling for all headings */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700; /* Bolder headings */
+  color: #111827; /* A slightly darker color for emphasis */
 }
 
-.card {
-  padding: 2em;
+/* Provides consistent styling for all links */
+a {
+  color: #f97316; /* Use the brand's orange color for links */
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease-in-out;
 }
 
-.read-the-docs {
-  color: #888;
+a:hover {
+  color: #ea580c; /* A darker orange on hover */
+  text-decoration: underline;
+}
+
+/* --- 4. Animation --- */
+/* A subtle fade-in effect when the app first loads */
+.app-container {
+  animation: fadeIn 0.5s ease-in-out;
 }
