@@ -1,0 +1,82 @@
+/* src/pages/dashboard.module.css */
+
+.dashboardContainer {
+  width: 100%;
+  max-width: 1200px; /* Give the dashboard a max width on very large screens */
+  margin: 0 auto; /* Center the container */
+  padding: 2.5rem;
+}
+
+/* --- Header Section --- */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3rem;
+  border-bottom: 1px solid #e5e7eb; /* A subtle separator line */
+  padding-bottom: 1.5rem;
+}
+
+.welcomeMessage h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1a202c;
+}
+
+.welcomeMessage p {
+  font-size: 16px;
+  color: #6b7280; /* A lighter gray for the email */
+  margin-top: 0.25rem;
+}
+
+.logoutButton {
+  padding: 10px 16px;
+  border: 1px solid #d1d5db; /* Light gray border */
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4b5563; /* Dark gray text */
+  background-color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.logoutButton:hover {
+  background-color: #f9fafb;
+  border-color: #adb5bd;
+}
+
+/* --- Main Content Section --- */
+.mainContent {
+  background-color: white;
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+
+.actionsContainer h2 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+/* --- Primary Action Button (Add Run) --- */
+.primaryButton {
+  display: inline-block;
+  padding: 14px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  /* Use the same vibrant orange as the sign-in button */
+  background-color: #f97316; 
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.primaryButton:hover {
+  background-color: #ea580c; /* Darker orange on hover */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}

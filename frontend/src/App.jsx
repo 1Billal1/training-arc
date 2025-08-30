@@ -1,8 +1,7 @@
 // src/App.jsx
-
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SignIn from "./pages/signin";
-import Home from "./pages/home";
+import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from './context/AuthContext'; 
 import './App.css'; 
@@ -21,7 +20,7 @@ function App() {
               path="/home"
               element={
                 <ProtectedRoute>
-                  <Home />
+                  <Dashboard />
                 </ProtectedRoute>
               }
             />
