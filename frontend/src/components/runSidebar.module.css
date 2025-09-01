@@ -1,0 +1,79 @@
+/* src/components/runSidebar.module.css */
+
+.sidebarContainer {
+  background-color: #ffffff;
+  border-right: 1px solid #e2e8f0;
+  padding: 1.5rem;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.sidebarTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a202c;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e2e8f0;
+  margin-bottom: 1rem;
+}
+
+.runList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.runItem {
+  position: relative;
+  background-color: #f8fafc;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease-in-out;
+}
+
+.runItem:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-color: #cbd5e0;
+}
+
+.runDate {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.runDetails {
+  font-size: 14px;
+  color: #64748b;
+}
+
+.loadingText {
+  font-size: 14px;
+  color: #64748b;
+  padding: 0.75rem;
+}
+
+.deleteButton {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  background: transparent;
+  color: #94a3b8; 
+  border: none;
+  border-radius: 50%;
+  
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 1;
+  
+  cursor: pointer;
+}

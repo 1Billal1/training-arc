@@ -1,41 +1,37 @@
 /* src/pages/dashboard.module.css */
 
-.dashboardContainer {
-  width: 100%;
-  max-width: 1200px; /* Give the dashboard a max width on very large screens */
-  margin: 0 auto; /* Center the container */
-  padding: 2.5rem;
+.pageWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
-/* --- Header Section --- */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 3rem;
-  border-bottom: 1px solid #e5e7eb; /* A subtle separator line */
-  padding-bottom: 1.5rem;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #e2e8f0;
+  background-color: white;
 }
 
-.welcomeMessage h1 {
-  font-size: 28px;
+.header h1 {
+  font-size: 24px;
   font-weight: 700;
-  color: #1a202c;
 }
 
-.welcomeMessage p {
-  font-size: 16px;
-  color: #6b7280; /* A lighter gray for the email */
-  margin-top: 0.25rem;
+.header p {
+  font-size: 14px;
+  color: #64748b;
 }
 
 .logoutButton {
-  padding: 10px 16px;
-  border: 1px solid #d1d5db; /* Light gray border */
+  padding: 8px 14px;
+  border: 1px solid #d1d5db;
   border-radius: 8px;
   font-size: 14px;
   font-weight: 600;
-  color: #4b5563; /* Dark gray text */
+  color: #4b5563;
   background-color: white;
   cursor: pointer;
   transition: all 0.2s;
@@ -43,40 +39,118 @@
 
 .logoutButton:hover {
   background-color: #f9fafb;
-  border-color: #adb5bd;
 }
 
-/* --- Main Content Section --- */
+.dashboardGrid {
+  display: grid;
+  grid-template-columns: 280px 1fr; /* Fixed sidebar, flexible content */
+  flex-grow: 1;
+  overflow: hidden;
+}
+
 .mainContent {
+  padding: 2.5rem;
+  background-color: #f8f9fa;
+  overflow-y: auto;
+}
+
+.contentCard {
   background-color: white;
   padding: 2.5rem;
   border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+}
+
+.actionsContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
 }
 
 .actionsContainer h2 {
   font-size: 22px;
   font-weight: 600;
-  margin-bottom: 1.5rem;
 }
 
-/* --- Primary Action Button (Add Run) --- */
 .primaryButton {
-  display: inline-block;
-  padding: 14px 24px;
+  padding: 10px 18px;
   border: none;
   border-radius: 8px;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
   color: white;
-  /* Use the same vibrant orange as the sign-in button */
-  background-color: #f97316; 
+  background-color: #f97316;
   cursor: pointer;
   transition: all 0.2s;
 }
 
 .primaryButton:hover {
-  background-color: #ea580c; /* Darker orange on hover */
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #ea580c;
+}
+
+.chartTitle {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+/* --- NEW STYLES ADDED BELOW --- */
+
+.chartsGrid {
+  display: grid;
+  /* On desktops, create 3 equal-width columns */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem; /* Space between the charts */
+  margin-top: 2rem;
+}
+
+/* A container for each individual chart and its title */
+.chartContainer {
+  width: 100%;
+  height: 300px; /* Give each chart a consistent height */
+}
+
+.chartContainer h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a202c;
+  margin-bottom: 1rem;
+}
+
+.progressSection {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e2e8f0; /* Separator line */
+}
+
+.progressSection h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a202c;
+  margin-bottom: 1.5rem;
+}
+
+/* A container to space out the two progress bars */
+.progressBarsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* --- Responsive rules for the chart grid --- */
+
+/* On tablets (screens <= 900px wide), switch to 2 columns */
+@media (max-width: 900px) {
+  .chartsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* On mobile phones (screens <= 600px wide), switch back to a single column */
+@media (max-width: 600px) {
+  .chartsGrid {
+    grid-template-columns: 1fr;
+  }
 }
