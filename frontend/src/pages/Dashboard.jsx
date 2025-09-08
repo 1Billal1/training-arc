@@ -1,5 +1,3 @@
-// src/pages/Dashboard.jsx
-
 import { useState, useEffect, useCallback } from "react";
 import { auth, db } from '../firebase';
 import { useAuth } from '../context/AuthContext';
@@ -11,7 +9,7 @@ import AddRun from "./addRun";
 import Modal from "../components/Modal";
 import RunSidebar from "../components/RunSidebar";
 import ProgressBar from "../pages/ProgressBar";
-import styles from './dashboard.module.css';
+import styles from './Dashboard.module.css';
 
 function Dashboard() {
   const { currentUser } = useAuth();
@@ -30,7 +28,10 @@ function Dashboard() {
         orderBy("runDate", "asc")
       );
       const snapshot = await getDocs(q);
-      const runList = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      const runList = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
       setRuns(runList);
     } catch (err) {
       console.error("Error fetching runs:", err);
@@ -54,12 +55,7 @@ function Dashboard() {
       }
     }
   };
-  
-  const handleAddRunSuccess = () => {
-    setIsModalOpen(false);
-    fetchRuns();
-  };
-  
+
   const handleLogout = async () => {
     try {
       await auth.signOut();
@@ -68,10 +64,13 @@ function Dashboard() {
       console.error("Failed to log out", error);
     }
   };
+  
+  const handleAddRunSuccess = () => {
+    setIsModalOpen(false);
+    fetchRuns();
+  };
 
-
-  // --- Data preparation for charts and progress bars ---
-
+  // Prepare data for the charts
   const graphData = runs
     .filter(run => run.runDate && run.totalTimeSeconds > 0)
     .map(run => {
@@ -101,18 +100,14 @@ function Dashboard() {
 
   return (
     <div className={styles.pageWrapper}>
-      <header className={styles.header}>
-        <div>
-          <h1>Dashboard</h1>
-          <p>Logged in as: {currentUser?.email}</p>
-        </div>
-        <button onClick={handleLogout} className={styles.logoutButton}>
-          Logout
-        </button>
-      </header>
 
+      {/* The main container is now the dashboard grid */}
       <div className={styles.dashboardGrid}>
-        <RunSidebar runs={runs} isLoading={isLoadingRuns} onDeleteRun={handleDeleteRun} />
+        <RunSidebar 
+          runs={runs} 
+          isLoading={isLoadingRuns} 
+          onDeleteRun={handleDeleteRun} 
+        />
         
         <main className={styles.mainContent}>
           <div className={styles.contentCard}>
@@ -129,26 +124,49 @@ function Dashboard() {
               <div className={styles.chartContainer}>
                 <h3>Run Time</h3>
                 <ResponsiveContainer>
-                  <LineChart data={graphData}><CartesianGrid strokeDasharray="3 3" /><XAxis dataKey="date" /><YAxis label={{ value: 'Minutes', angle: -90, position: 'insideLeft' }} /><Tooltip /><Legend /><Line type="monotone" dataKey="time" name="Time (min)" stroke="#f97316" strokeWidth={2} /></LineChart>
+                  <LineChart data={graphData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="date" />
+                    <YAxis label={{ value: 'Minutes', angle: -90, position: 'insideLeft' }} />
+                    <Tooltip />
+                    <Legend />
+                    <Line type="monotone" dataKey="time" name="Time (min)" stroke="#f97316" strokeWidth={2} />
+                  </LineChart>
                 </ResponsiveContainer>
               </div>
+
               {/* Chart 2: Speed */}
               <div className={styles.chartContainer}>
                 <h3>Average Speed</h3>
                 <ResponsiveContainer>
-                  <LineChart data={graphData}><CartesianGrid strokeDasharray="3 3" /><XAxis dataKey="date" /><YAxis label={{ value: 'km/h', angle: -90, position: 'insideLeft' }} /><Tooltip /><Legend /><Line type="monotone" dataKey="speed" name="Speed (km/h)" stroke="#3b82f6" strokeWidth={2} /></LineChart>
+                  <LineChart data={graphData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="date" />
+                    <YAxis label={{ value: 'km/h', angle: -90, position: 'insideLeft' }} />
+                    <Tooltip />
+                    <Legend />
+                    <Line type="monotone" dataKey="speed" name="Speed (km/h)" stroke="#3b82f6" strokeWidth={2} />
+                  </LineChart>
                 </ResponsiveContainer>
               </div>
+
               {/* Chart 3: Distance */}
               <div className={styles.chartContainer}>
                 <h3>Distance</h3>
                 <ResponsiveContainer>
-                  <LineChart data={graphData}><CartesianGrid strokeDasharray="3 3" /><XAxis dataKey="date" /><YAxis label={{ value: 'km', angle: -90, position: 'insideLeft' }} /><Tooltip /><Legend /><Line type="monotone" dataKey="distance" name="Distance (km)" stroke="#16a34a" strokeWidth={2} /></LineChart>
+                  <LineChart data={graphData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="date" />
+                    <YAxis label={{ value: 'km', angle: -90, position: 'insideLeft' }} />
+                    <Tooltip />
+                    <Legend />
+                    <Line type="monotone" dataKey="distance" name="Distance (km)" stroke="#16a34a" strokeWidth={2} />
+                  </LineChart>
                 </ResponsiveContainer>
               </div>
             </div>
 
-            {/* --- NEW: Progress Bars Section --- */}
+            {/* Progress Bars Section */}
             <div className={styles.progressSection}>
               <h3>Overall Progress</h3>
               <div className={styles.progressBarsContainer}>
@@ -167,7 +185,6 @@ function Dashboard() {
                 />
               </div>
             </div>
-
           </div>
         </main>
       </div>

@@ -1,5 +1,4 @@
 // src/pages/ProgressBar.jsx
-
 import React from 'react';
 import styles from './progressBar.module.css';
 

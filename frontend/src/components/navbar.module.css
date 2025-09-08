@@ -1,0 +1,69 @@
+/* src/components/navbar.module.css */
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2.5rem;
+  background-color: white;
+  border-bottom: 1px solid #e2e8f0;
+  height: 80px; /* Slightly taller to fit the new title style */
+}
+
+.navLeft {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Updated style for the dynamic page title */
+.pageTitle {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1a202c;
+}
+
+.userInfo {
+  font-size: 13px;
+  color: #64748b;
+}
+
+.navRight {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.navLink {
+  font-size: 15px;
+  font-weight: 600;
+  color: #475569;
+  text-decoration: none;
+  padding: 8px 4px;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+}
+
+.navLink:hover {
+  color: #1e293b;
+}
+
+.activeLink {
+  color: #1e293b;
+  border-bottom-color: #f97316; /* Brand orange for active link */
+}
+
+.logoutButton {
+  padding: 8px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4b5563;
+  background-color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.logoutButton:hover {
+  background-color: #f8fafc;
+}

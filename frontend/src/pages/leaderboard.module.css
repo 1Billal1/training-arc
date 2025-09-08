@@ -1,0 +1,25 @@
+/* src/pages/leaderboard.module.css */
+.pageContainer {
+max-width: 1200px;
+margin: 0 auto;
+padding: 2.5rem;
+}
+
+.pageTitle {
+font-size: 32px;
+font-weight: 700;
+margin-bottom: 2rem;
+}
+
+.grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+gap: 2rem;
+}
+
+.loading {
+text-align: center;
+padding: 4rem;
+font-size: 20px;
+color: #64748b;
+}

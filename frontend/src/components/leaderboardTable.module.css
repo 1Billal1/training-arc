@@ -1,0 +1,77 @@
+/* src/components/leaderboardTable.module.css */
+
+.leaderboardCard {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  /* REMOVED: table-layout: fixed; to make the layout adjustable */
+}
+
+.table th, .table td {
+  padding: 0.75rem;
+  text-align: left;
+  /* Add vertical alignment for cells that might wrap */
+  vertical-align: middle;
+}
+
+.table th {
+  font-size: 13px;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.table tbody tr:not(:last-child) {
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.rankCell {
+  /* Give the Rank column a fixed, predictable width */
+  width: 60px; 
+}
+
+.rank {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  border-radius: 50%;
+  font-weight: 600;
+}
+
+.userCell {
+  font-weight: 500;
+  color: #334155;
+  /* --- THIS IS THE KEY FIX FOR WRAPPING LONG TEXT --- */
+  /* This tells long words (like a username with no spaces) to break if needed */
+  overflow-wrap: break-word;
+  word-wrap: break-word; /* Older browser support */
+  word-break: break-word; /* Even more robust */
+}
+
+.statCell {
+  font-weight: 600;
+  color: #1e293b;
+  text-align: right;
+  /* Give the Stat column a minimum width to prevent it from getting too squished */
+  min-width: 110px; 
+}
+
+/* --- Ranking Colors --- */
+.gold .rank { background-color: #fffbeb; color: #f59e0b; }
+.silver .rank { background-color: #f1f5f9; color: #64748b; }
+.bronze .rank { background-color: #fff7ed; color: #d97706; }

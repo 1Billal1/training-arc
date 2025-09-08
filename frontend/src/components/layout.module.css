@@ -1,0 +1,13 @@
+/* src/components/layout.module.css */
+
+.appLayout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f8fafc; /* Global background color */
+}
+
+.mainContent {
+  flex-grow: 1; /* Takes up remaining vertical space */
+  overflow-y: auto; /* Allows content to scroll independently of the navbar */
+}
