@@ -12,54 +12,60 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  border-bottom: 1px solid #e2e8f0;
-  background-color: white;
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-foreground);
 }
 
 .header h1 {
   font-size: 24px;
-  font-weight: 700;
 }
 
 .header p {
   font-size: 14px;
-  color: #64748b;
+  color: var(--color-text-secondary);
 }
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 
 .logoutButton {
   padding: 8px 14px;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   font-size: 14px;
   font-weight: 600;
-  color: #4b5563;
-  background-color: white;
+  color: var(--color-text-primary);
+  background-color: var(--color-foreground);
   cursor: pointer;
   transition: all 0.2s;
 }
 
 .logoutButton:hover {
-  background-color: #f9fafb;
+  background-color: var(--color-background-muted);
 }
 
 .dashboardGrid {
   display: grid;
-  grid-template-columns: 280px 1fr; /* Fixed sidebar, flexible content */
+  grid-template-columns: 280px 1fr;
   flex-grow: 1;
   overflow: hidden;
 }
 
 .mainContent {
   padding: 2.5rem;
-  background-color: #f8f9fa;
+  background-color: var(--color-background);
   overflow-y: auto;
 }
 
 .contentCard {
-  background-color: white;
+  background-color: var(--color-foreground);
   padding: 2.5rem;
   border-radius: 16px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 8px 16px var(--shadow-color);
 }
 
 .actionsContainer {
@@ -78,10 +84,8 @@
   }
 }
 
-
 .actionsContainer h2 {
   font-size: 22px;
-  font-weight: 600;
 }
 
 .primaryButton {
@@ -91,7 +95,7 @@
   font-size: 14px;
   font-weight: 600;
   color: white;
-  background-color: #f97316;
+  background-color: var(--color-brand);
   cursor: pointer;
   transition: all 0.2s;
   width: 100%;
@@ -103,14 +107,12 @@
   }
 }
 
-
 .primaryButton:hover {
-  background-color: #ea580c;
+  background-color: var(--color-brand-hover);
 }
 
 .chartTitle {
   font-size: 18px;
-  font-weight: 600;
   margin-top: 2rem;
   margin-bottom: 1rem;
 }
@@ -129,21 +131,17 @@
 
 .chartContainer h3 {
   font-size: 18px;
-  font-weight: 600;
-  color: #1a202c;
   margin-bottom: 1rem;
 }
 
 .progressSection {
   margin-top: 3rem;
   padding-top: 2rem;
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid var(--color-border);
 }
 
 .progressSection h3 {
   font-size: 18px;
-  font-weight: 600;
-  color: #1a202c;
   margin-bottom: 1.5rem;
 }
 
@@ -152,8 +150,6 @@
   flex-direction: column;
   gap: 2rem;
 }
-
-/* --- Responsive rules for the dashboard layout --- */
 
 @media (min-width: 768px) {
   .chartsGrid {
@@ -167,7 +163,6 @@
   }
 }
 
-/* On mobile phones, stack the sidebar and main content */
 @media (max-width: 1024px) {
   .dashboardGrid {
     grid-template-columns: 1fr;

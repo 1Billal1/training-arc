@@ -1,5 +1,4 @@
 // src/pages/Dashboard.jsx
-
 import { useState, useEffect, useCallback } from "react";
 import { auth, db } from '../firebase';
 import { useAuth } from '../context/AuthContext';
@@ -11,6 +10,7 @@ import AddRun from "./addRun";
 import Modal from "../components/Modal";
 import RunSidebar from "../components/RunSidebar";
 import ProgressBar from "../pages/ProgressBar";
+import ThemeToggle from "../components/ThemeToggle"; // Import the toggle
 import styles from './dashboard.module.css';
 
 function Dashboard() {
@@ -69,9 +69,6 @@ function Dashboard() {
     }
   };
 
-
-  // --- Data preparation for charts and progress bars ---
-
   const graphData = runs
     .filter(run => run.runDate && run.totalTimeSeconds > 0)
     .map(run => {
@@ -84,12 +81,10 @@ function Dashboard() {
       };
     });
 
-  // Calculate totals for progress bars
   const totalDistanceRan = runs.reduce((sum, run) => sum + run.totalDistance, 0);
   const totalTimeRanSeconds = runs.reduce((sum, run) => sum + run.totalTimeSeconds, 0);
   const totalTimeRanHours = totalTimeRanSeconds / 3600;
 
-  // Define goals and milestones
   const distanceGoal = 250;
   const timeGoal = 36;
   const distanceMilestones = [
@@ -106,9 +101,12 @@ function Dashboard() {
           <h1>Dashboard</h1>
           <p>Logged in as: {currentUser?.email}</p>
         </div>
-        <button onClick={handleLogout} className={styles.logoutButton}>
-          Logout
-        </button>
+        <div className={styles.headerActions}>
+          <ThemeToggle /> {/* Add the toggle here */}
+          <button onClick={handleLogout} className={styles.logoutButton}>
+            Logout
+          </button>
+        </div>
       </header>
 
       <div className={styles.dashboardGrid}>
@@ -123,23 +121,19 @@ function Dashboard() {
               </button>
             </div>
 
-            {/* Charts Section */}
             <div className={styles.chartsGrid}>
-              {/* Chart 1: Run Time */}
               <div className={styles.chartContainer}>
                 <h3>Run Time</h3>
                 <ResponsiveContainer>
                   <LineChart data={graphData}><CartesianGrid strokeDasharray="3 3" /><XAxis dataKey="date" /><YAxis label={{ value: 'Minutes', angle: -90, position: 'insideLeft' }} /><Tooltip /><Legend /><Line type="monotone" dataKey="time" name="Time (min)" stroke="#f97316" strokeWidth={2} /></LineChart>
                 </ResponsiveContainer>
               </div>
-              {/* Chart 2: Speed */}
               <div className={styles.chartContainer}>
                 <h3>Average Speed</h3>
                 <ResponsiveContainer>
                   <LineChart data={graphData}><CartesianGrid strokeDasharray="3 3" /><XAxis dataKey="date" /><YAxis label={{ value: 'km/h', angle: -90, position: 'insideLeft' }} /><Tooltip /><Legend /><Line type="monotone" dataKey="speed" name="Speed (km/h)" stroke="#3b82f6" strokeWidth={2} /></LineChart>
                 </ResponsiveContainer>
               </div>
-              {/* Chart 3: Distance */}
               <div className={styles.chartContainer}>
                 <h3>Distance</h3>
                 <ResponsiveContainer>
@@ -148,7 +142,6 @@ function Dashboard() {
               </div>
             </div>
 
-            {/* --- NEW: Progress Bars Section --- */}
             <div className={styles.progressSection}>
               <h3>Overall Progress</h3>
               <div className={styles.progressBarsContainer}>

@@ -1,20 +1,20 @@
 /* src/components/runSidebar.module.css */
 
 .sidebarContainer {
-  background-color: #ffffff;
-  border-right: 1px solid #e2e8f0;
+  background-color: var(--color-foreground);
+  border-right: 1px solid var(--color-border);
   padding: 1.5rem;
   height: 100%;
   overflow-y: auto;
 }
 
 .sidebarTitle {
+  color: var(--color-text-headings);
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 1rem;
   font-size: 18px;
   font-weight: 600;
-  color: #1a202c;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid #e2e8f0;
-  margin-bottom: 1rem;
 }
 
 .runList {
@@ -25,33 +25,33 @@
 
 .runItem {
   position: relative;
-  background-color: #f8fafc;
+  background-color: var(--color-background-muted);
   padding: 1rem;
   border-radius: 8px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--color-border);
   transition: all 0.2s ease-in-out;
 }
 
 .runItem:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px var(--shadow-color);
   border-color: #cbd5e0;
 }
 
 .runDate {
   font-size: 16px;
   font-weight: 700;
-  color: #1e293b;
+  color: var(--color-text-primary);
 }
 
 .runDetails {
   font-size: 14px;
-  color: #64748b;
+  color: var(--color-text-secondary);
 }
 
 .loadingText {
   font-size: 14px;
-  color: #64748b;
+  color: var(--color-text-secondary);
   padding: 0.75rem;
 }
 
@@ -61,20 +61,16 @@
   right: 8px;
   width: 24px;
   height: 24px;
-  
   display: flex;
   align-items: center;
   justify-content: center;
-  
   background: transparent;
-  color: #94a3b8; 
+  color: var(--color-text-secondary); 
   border: none;
   border-radius: 50%;
-  
   font-size: 24px;
   font-weight: bold;
   line-height: 1;
-  
   cursor: pointer;
 }
 
@@ -82,7 +78,7 @@
   .sidebarContainer {
     height: auto;
     border-right: none;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid var(--color-border);
   }
   .runList {
     max-height: 40vh;

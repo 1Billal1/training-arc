@@ -6,24 +6,24 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black */
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000; /* Ensure it's on top of everything */
+  z-index: 1000;
   animation: fadeIn 0.3s ease;
 }
 
 .modalContent {
   position: relative;
-  background-color: white;
+  background-color: var(--color-foreground);
   padding: 2.5rem;
   border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 30px var(--shadow-color);
   width: 90%;
-  max-width: 50rem; /* 800px - a good size for a detailed form */
+  max-width: 50rem;
   max-height: 90vh;
-  overflow-y: auto; /* Allows scrolling if content is too long */
+  overflow-y: auto;
   animation: slideIn 0.4s ease-out;
 }
 
@@ -34,17 +34,16 @@
   background: none;
   border: none;
   font-size: 2rem;
-  color: #9ca3af;
+  color: var(--color-text-secondary);
   cursor: pointer;
   line-height: 1;
   transition: color 0.2s;
 }
 
 .closeButton:hover {
-  color: #1f2937;
+  color: var(--color-text-primary);
 }
 
-/* Animations */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }

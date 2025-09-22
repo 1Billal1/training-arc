@@ -1,53 +1,77 @@
 /* src/App.css */
 
 /* --- 1. CSS Reset & Base Styles --- */
-/* This ensures consistent starting points across all browsers. */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Set the base styles for the entire document */
+/* --- THEME VARIABLES --- */
+:root {
+  --color-background: #f8f9fa;
+  --color-background-muted: #f1f5f9;
+  --color-foreground: #ffffff;
+  --color-text-primary: #1e293b;
+  --color-text-secondary: #64748b;
+  --color-text-headings: #111827;
+  --color-border: #e2e8f0;
+  --color-brand: #f97316;
+  --color-brand-hover: #ea580c;
+  --shadow-color: rgba(0, 0, 0, 0.08);
+}
+
+body.dark {
+  --color-background: #111827;
+  --color-background-muted: #1f2937;
+  --color-foreground: #1f2937;
+  --color-text-primary: #e5e7eb;
+  --color-text-secondary: #9ca3af;
+  --color-text-headings: #ffffff;
+  --color-border: #374151;
+  --color-brand: #f97316;
+  --color-brand-hover: #fb923c;
+  --shadow-color: rgba(0, 0, 0, 0.4);
+}
+
+
 html, body, #root {
   height: 100%;
   width: 100%;
-  /* This now uses the 'Inter' font we imported in index.html */
   font-family: 'Inter', sans-serif;
-  color: #1e293b; /* A dark slate color for default text */
-  background-color: #f8f9fa; /* Sets a consistent light gray background for all pages */
+  color: var(--color-text-primary);
+  background-color: var(--color-background);
+  transition: background-color 0.2s, color 0.2s;
 }
 
-/* --- 2. Main App Wrapper --- */
-/* Your .app-container div from App.jsx */
 .app-container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* Ensures the container takes up at least the full screen height */
+  min-height: 100vh;
 }
 
-/* --- 3. Default Typography Styles --- */
-/* Provides consistent styling for all headings */
 h1, h2, h3, h4, h5, h6 {
-  font-weight: 700; /* Bolder headings */
-  color: #111827; /* A slightly darker color for emphasis */
+  font-weight: 700;
+  color: var(--color-text-headings);
 }
 
-/* Provides consistent styling for all links */
 a {
-  color: #f97316; /* Use the brand's orange color for links */
+  color: var(--color-brand);
   text-decoration: none;
   font-weight: 600;
   transition: color 0.2s ease-in-out;
 }
 
 a:hover {
-  color: #ea580c; /* A darker orange on hover */
+  color: var(--color-brand-hover);
   text-decoration: underline;
 }
 
-/* --- 4. Animation --- */
-/* A subtle fade-in effect when the app first loads */
 .app-container {
   animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }

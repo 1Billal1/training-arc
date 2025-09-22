@@ -5,32 +5,34 @@ import SignUp from "./pages/signup";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from './context/AuthContext'; 
+import { ThemeProvider } from './context/ThemeContext'; // Import ThemeProvider
 import './App.css'; 
 
 function App() {
   return (
     <Router>
       <AuthProvider>
-        <div className="app-container">
-          <Routes>
-            {/* Sign-in page */}
-            <Route path="/" element={<SignIn />} />
-            
-            {/* 2. ADD THE SIGN-UP ROUTE */}
-            <Route path="/signup" element={<SignUp />} />
+        <ThemeProvider> {/* Wrap the app in the ThemeProvider */}
+          <div className="app-container">
+            <Routes>
+              {/* Sign-in page */}
+              <Route path="/" element={<SignIn />} />
+              
+              {/* Sign-up Route */}
+              <Route path="/signup" element={<SignUp />} />
 
-
-            {/* Protected Home */}
-            <Route
-              path="/home"
-              element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              }
-            />
-          </Routes>
-        </div>
+              {/* Protected Home */}
+              <Route
+                path="/home"
+                element={
+                  <ProtectedRoute>
+                    <Dashboard />
+                  </ProtectedRoute>
+                }
+              />
+            </Routes>
+          </div>
+        </ThemeProvider>
       </AuthProvider>
     </Router>
   );
