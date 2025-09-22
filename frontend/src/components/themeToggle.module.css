@@ -1,50 +1,19 @@
-/* src/pages/progressBar.module.css */
-
-.progressBarContainer {
-  width: 100%;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 0.5rem;
-}
-
-.label {
-  font-size: 16px;
-  font-weight: 600;
+/* src/components/themeToggle.module.css */
+.toggleButton {
+  background-color: transparent;
+  border: 1px solid var(--color-border);
   color: var(--color-text-primary);
-}
-
-.progressText {
-  font-size: 14px;
-  color: var(--color-text-secondary);
-  font-weight: 500;
-}
-
-.track {
-  position: relative;
-  width: 100%;
-  height: 16px;
-  background-color: var(--color-background-muted);
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.fill {
-  height: 100%;
-  background-color: var(--color-brand); 
-  border-radius: 8px;
-  transition: width 0.5s ease-in-out;
-}
-
-.milestone {
-  position: absolute;
-  top: 0;
-  height: 100%;
-  width: 2px;
-  background-color: var(--color-text-secondary);
-  transform: translateX(-50%); 
+  border-radius: 9999px;
   cursor: pointer;
+  font-size: 1.25rem;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.toggleButton:hover {
+  background-color: var(--color-background-muted);
 }
