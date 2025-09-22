@@ -3,7 +3,7 @@
   text-align: center;
   font-size: 26px;
   font-weight: 700;
-  color: #1a202c;
+  color: var(--color-text-headings);
   margin-bottom: 2rem;
 }
 
@@ -16,26 +16,22 @@
 .inputLabel {
   font-size: 14px;
   font-weight: 600;
-  color: #4a5568;
+  color: var(--color-text-secondary);
   margin-bottom: 0.5rem;
-  display: block; 
+  display: block;
 }
-
 
 .runInputField {
   width: 100%;
   padding: 12px 14px;
   font-size: 16px;
-  color: #2d3748;
-  background-color: white;
+  color: var(--color-text-primary);
+  background-color: var(--color-background);
   transition: all 0.2s;
-  
-  /* ADDED: A visible border and border-radius on every input */
-  border: 1px solid #cbd5e0;
+  border: 1px solid var(--color-border);
   border-radius: 8px;
 }
 
-/* --- CSS rules to hide the number input arrows --- */
 .runInputField::-webkit-outer-spin-button,
 .runInputField::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -47,16 +43,9 @@
 
 .runInputField:focus {
   outline: none;
-  border-color: #f97316; /* Use the brand orange for focus */
+  border-color: var(--color-brand);
   box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.25);
 }
-
-/* This class is no longer used for borders but can be kept for structure */
-.runInputGroup {
-  /* This class is now effectively empty */
-}
-
-/* --- Button, Error, and List styles remain the same --- */
 
 .runButton {
   display: flex;
@@ -69,17 +58,18 @@
   font-size: 16px;
   font-weight: 600;
   color: white;
-  background-color: #f97316;
+  background-color: var(--color-brand);
   cursor: pointer;
   transition: background-color 0.2s;
 }
 
 .runButton:hover:not(:disabled) {
-  background-color: #ea580c;
+  background-color: var(--color-brand-hover);
 }
 
 .runButton:disabled {
-  background-color: #fdba74;
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .lapInputs {
@@ -91,16 +81,36 @@
 
 .lapInputs label {
   font-size: 14px;
-  color: #4a5568;
+  color: var(--color-text-secondary);
   font-weight: 500;
   display: block;
   margin-bottom: 0.5rem;
 }
 
+.lapGridContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.lapItem {
+  display: flex;
+  flex-direction: column;
+}
+
 .lapList {
   margin-top: 2rem;
   padding: 1.25rem;
-  background-color: #f8fafc;
+  background-color: var(--color-background-muted);
   border-radius: 12px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--color-border);
+}
+
+.errorMessage {
+  color: #b91c1c;
+  background-color: #fee2e2;
+  border: 1px solid #f87171;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  text-align: center;
 }

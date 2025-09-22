@@ -2,15 +2,24 @@ const express = require('express');
 const cors = require('cors');
 const admin = require('firebase-admin');
 
-// Import your service account key
-const serviceAccount = require('./serviceAccountKey.json');
+// Check if the environment variable is set
+if (!process.env.FIREBASE_CREDENTIALS_JSON) {
+  // This error will crash the server on startup if the variable is missing,
+  // which is good because it prevents the app from running in a broken state.
+  throw new Error('The FIREBASE_CREDENTIALS_JSON environment variable is not set.');
+}
 
-// Initialize the Firebase Admin SDK
+// 1. Parse the credentials from the environment variable string
+const serviceAccount = JSON.parse(process.env.FIREBASE_CREDENTIALS_JSON);
+
+// 2. Initialize the Firebase Admin SDK with the parsed credentials
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
 
+
 const app = express();
+// Render sets the PORT environment variable for you.
 const port = process.env.PORT || 5000;
 
 app.use(cors());

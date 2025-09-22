@@ -1,7 +1,8 @@
 // src/pages/signin.jsx
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+// --- 1. IMPORT 'Link' ALONG WITH 'useNavigate' ---
+import { useNavigate, Link } from 'react-router-dom'; 
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase';
 import styles from './signin.module.css';
@@ -45,7 +46,6 @@ function Signin() {
         </h2>
         
         <form className={styles.form} onSubmit={handleLogin}>
-          {/* --- FIX: Add the inputGroup wrapper div --- */}
           <div className={styles.inputGroup}>
             <input
               id="email-address"
@@ -86,7 +86,6 @@ function Signin() {
           >
             {loading ? (
               <div className={styles.spinnerContainer}>
-                {/* SVG for spinner */}
                 <svg className={styles.spinner} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                   <circle style={{ opacity: 0.25 }} cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                   <path style={{ opacity: 0.75 }} fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -98,6 +97,12 @@ function Signin() {
             )}
           </button>
         </form>
+
+        {/* --- 2. ADD THIS PARAGRAPH WITH THE LINK TO THE SIGN UP PAGE --- */}
+        <p className={styles.subtleLink}>
+          Don't have an account? <Link to="/signup">Sign Up</Link>
+        </p>
+
       </div>
     </div>
   );

@@ -1,26 +1,18 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// This object now securely reads the configuration from the
+// environment variables you set on Render.
 const firebaseConfig = {
-  apiKey: "AIzaSyCNF2cbb2p28ygTwkxcXGUhsaNindutZ-Y",
-  authDomain: "training-arc-656d3.firebaseapp.com",
-  projectId: "training-arc-656d3",
-  storageBucket: "training-arc-656d3.firebasestorage.app",
-  messagingSenderId: "388792578624",
-  appId: "1:388792578624:web:fdf0825a264af5fbf1a5a5",
-  measurementId: "G-6LYRZYH7RH"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
-
-// Initialize Firebase (without any TypeScript types)
 const app = initializeApp(firebaseConfig);
-
-// Initialize and export the Firebase services so other files can use them
 export const auth = getAuth(app);
 export const db = getFirestore(app);

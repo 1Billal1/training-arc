@@ -9,7 +9,8 @@ import AddRun from "./addRun";
 import Modal from "../components/Modal";
 import RunSidebar from "../components/RunSidebar";
 import ProgressBar from "../pages/ProgressBar";
-import styles from './Dashboard.module.css';
+import ThemeToggle from "../components/ThemeToggle"; // Corrected import location
+import styles from './dashboard.module.css';
 
 function Dashboard() {
   const { currentUser } = useAuth();
@@ -100,6 +101,18 @@ function Dashboard() {
 
   return (
     <div className={styles.pageWrapper}>
+      <header className={styles.header}>
+        <div>
+          <h1>Dashboard</h1>
+          <p>Logged in as: {currentUser?.email}</p>
+        </div>
+        <div className={styles.headerActions}>
+          <ThemeToggle />
+          <button onClick={handleLogout} className={styles.logoutButton}>
+            Logout
+          </button>
+        </div>
+      </header>
 
       {/* The main container is now the dashboard grid */}
       <div className={styles.dashboardGrid}>
