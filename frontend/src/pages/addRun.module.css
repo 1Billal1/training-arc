@@ -21,7 +21,6 @@
   display: block; 
 }
 
-
 .runInputField {
   width: 100%;
   padding: 12px 14px;
@@ -30,12 +29,10 @@
   background-color: white;
   transition: all 0.2s;
   
-  /* ADDED: A visible border and border-radius on every input */
   border: 1px solid #cbd5e0;
   border-radius: 8px;
 }
 
-/* --- CSS rules to hide the number input arrows --- */
 .runInputField::-webkit-outer-spin-button,
 .runInputField::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -47,16 +44,11 @@
 
 .runInputField:focus {
   outline: none;
-  border-color: #f97316; /* Use the brand orange for focus */
+  border-color: #f97316;
   box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.25);
 }
 
-/* This class is no longer used for borders but can be kept for structure */
-.runInputGroup {
-  /* This class is now effectively empty */
-}
-
-/* --- Button, Error, and List styles remain the same --- */
+.runInputGroup {}
 
 .runButton {
   display: flex;
@@ -97,10 +89,31 @@
   margin-bottom: 0.5rem;
 }
 
+.lapGridContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.lapItem {
+  display: flex;
+  flex-direction: column;
+}
+
+
 .lapList {
   margin-top: 2rem;
   padding: 1.25rem;
   background-color: #f8fafc;
   border-radius: 12px;
   border: 1px solid #e2e8f0;
+}
+
+.errorMessage {
+  color: #b91c1c;
+  background-color: #fee2e2;
+  border: 1px solid #f87171;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  text-align: center;
 }

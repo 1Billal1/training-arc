@@ -77,3 +77,15 @@
   
   cursor: pointer;
 }
+
+@media (max-width: 1024px) {
+  .sidebarContainer {
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .runList {
+    max-height: 40vh;
+    overflow-y: auto;
+  }
+}

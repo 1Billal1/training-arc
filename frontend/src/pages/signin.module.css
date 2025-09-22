@@ -1,9 +1,11 @@
+/* src/pages/signin.module.css */
+
 .pageContainer {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  padding: 2rem;
+  padding: 1rem; /* Reduced padding for mobile */
 }
 
 .formContainer {
@@ -17,7 +19,7 @@
 
 .title {
   text-align: center;
-  font-size: 28px;
+  font-size: 24px; /* Reduced font size */
   font-weight: 700;
   color: #1a202c;
   margin-bottom: 2.5rem;
@@ -126,4 +128,14 @@
 
 .subtleLink a:hover {
   text-decoration: underline;
+}
+
+/* --- Responsive styles --- */
+@media (max-width: 640px) {
+  .formContainer {
+    padding: 24px;
+  }
+  .title {
+    font-size: 22px;
+  }
 }
