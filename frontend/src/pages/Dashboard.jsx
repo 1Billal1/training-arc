@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { auth, db } from '../firebase';
 import { useAuth } from '../context/AuthContext';
-import { useNavigate, Link } from 'react-router-dom'; // 1. Import Link
+import { useNavigate } from 'react-router-dom';
 import { collection, query, where, orderBy, getDocs, doc, deleteDoc } from 'firebase/firestore';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 
@@ -11,7 +11,7 @@ import AddRun from "./addRun";
 import Modal from "../components/Modal";
 import RunSidebar from "../components/RunSidebar";
 import ProgressBar from "../pages/ProgressBar";
-import ThemeToggle from "../components/ThemeToggle";
+import ThemeToggle from "../components/ThemeToggle"; // Corrected import location
 import styles from './dashboard.module.css';
 
 function Dashboard() {
@@ -21,12 +21,15 @@ function Dashboard() {
   const [runs, setRuns] = useState([]);
   const [isLoadingRuns, setIsLoadingRuns] = useState(true);
 
-  // fetchRuns, handleDeleteRun, etc. remain the same...
   const fetchRuns = useCallback(async () => {
     if (!currentUser) return;
     setIsLoadingRuns(true);
     try {
-      const q = query(collection(db, "runs"), where("userId", "==", currentUser.uid), orderBy("runDate", "asc"));
+      const q = query(
+        collection(db, "runs"),
+        where("userId", "==", currentUser.uid),
+        orderBy("runDate", "asc")
+      );
       const snapshot = await getDocs(q);
       const runList = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       setRuns(runList);
@@ -43,7 +46,8 @@ function Dashboard() {
   const handleDeleteRun = async (runIdToDelete) => {
     if (window.confirm("Are you sure you want to delete this run?")) {
       try {
-        await deleteDoc(doc(db, "runs", runIdToDelete));
+        const runDocRef = doc(db, "runs", runIdToDelete);
+        await deleteDoc(runDocRef);
         setRuns(currentRuns => currentRuns.filter(run => run.id !== runIdToDelete));
       } catch (error) {
         console.error("Error deleting run: ", error);
@@ -66,18 +70,27 @@ function Dashboard() {
     }
   };
 
-  // Data preparation for charts...
-  const graphData = runs.filter(run => run.runDate && run.totalTimeSeconds > 0).map(run => {
-    const timeInHours = run.totalTimeSeconds / 3600;
-    return {
-      date: run.runDate.toDate().toLocaleDateString('en-GB'),
-      time: Math.round(run.totalTimeSeconds / 60),
-      speed: timeInHours > 0 ? parseFloat((run.totalDistance / timeInHours).toFixed(2)) : 0,
-      distance: run.totalDistance,
-    };
-  });
+
+  // --- Data preparation for charts and progress bars ---
+
+  const graphData = runs
+    .filter(run => run.runDate && run.totalTimeSeconds > 0)
+    .map(run => {
+      const timeInHours = run.totalTimeSeconds / 3600;
+      return {
+        date: run.runDate.toDate().toLocaleDateString('en-GB'),
+        time: Math.round(run.totalTimeSeconds / 60),
+        speed: timeInHours > 0 ? parseFloat((run.totalDistance / timeInHours).toFixed(2)) : 0,
+        distance: run.totalDistance,
+      };
+    });
+
+  // Calculate totals for progress bars
   const totalDistanceRan = runs.reduce((sum, run) => sum + run.totalDistance, 0);
-  const totalTimeRanHours = runs.reduce((sum, run) => sum + run.totalTimeSeconds, 0) / 3600;
+  const totalTimeRanSeconds = runs.reduce((sum, run) => sum + run.totalTimeSeconds, 0);
+  const totalTimeRanHours = totalTimeRanSeconds / 3600;
+
+  // Define goals and milestones
   const distanceGoal = 250;
   const timeGoal = 36;
   const distanceMilestones = [
@@ -95,17 +108,16 @@ function Dashboard() {
           <p>Logged in as: {currentUser?.email}</p>
         </div>
         <div className={styles.headerActions}>
-          {/* 2. Add Leaderboard Link/Button */}
-          <Link to="/leaderboard" className={styles.navButton}>Leaderboard</Link>
           <ThemeToggle />
           <button onClick={handleLogout} className={styles.logoutButton}>
             Logout
           </button>
         </div>
       </header>
-      {/* Rest of the Dashboard JSX is unchanged */}
+
       <div className={styles.dashboardGrid}>
         <RunSidebar runs={runs} isLoading={isLoadingRuns} onDeleteRun={handleDeleteRun} />
+        
         <main className={styles.mainContent}>
           <div className={styles.contentCard}>
             <div className={styles.actionsContainer}>
@@ -114,19 +126,24 @@ function Dashboard() {
                 Add a New Run
               </button>
             </div>
+
+            {/* Charts Section */}
             <div className={styles.chartsGrid}>
+              {/* Chart 1: Run Time */}
               <div className={styles.chartContainer}>
                 <h3>Run Time</h3>
                 <ResponsiveContainer>
                   <LineChart data={graphData}><CartesianGrid strokeDasharray="3 3" /><XAxis dataKey="date" /><YAxis label={{ value: 'Minutes', angle: -90, position: 'insideLeft' }} /><Tooltip /><Legend /><Line type="monotone" dataKey="time" name="Time (min)" stroke="#f97316" strokeWidth={2} /></LineChart>
                 </ResponsiveContainer>
               </div>
+              {/* Chart 2: Speed */}
               <div className={styles.chartContainer}>
                 <h3>Average Speed</h3>
                 <ResponsiveContainer>
                   <LineChart data={graphData}><CartesianGrid strokeDasharray="3 3" /><XAxis dataKey="date" /><YAxis label={{ value: 'km/h', angle: -90, position: 'insideLeft' }} /><Tooltip /><Legend /><Line type="monotone" dataKey="speed" name="Speed (km/h)" stroke="#3b82f6" strokeWidth={2} /></LineChart>
                 </ResponsiveContainer>
               </div>
+              {/* Chart 3: Distance */}
               <div className={styles.chartContainer}>
                 <h3>Distance</h3>
                 <ResponsiveContainer>
@@ -134,16 +151,31 @@ function Dashboard() {
                 </ResponsiveContainer>
               </div>
             </div>
+
+            {/* --- NEW: Progress Bars Section --- */}
             <div className={styles.progressSection}>
               <h3>Overall Progress</h3>
               <div className={styles.progressBarsContainer}>
-                <ProgressBar label="Total Distance" value={totalDistanceRan} goal={distanceGoal} unit="km" milestones={distanceMilestones} />
-                <ProgressBar label="Total Time" value={totalTimeRanHours} goal={timeGoal} unit="hours" />
+                <ProgressBar 
+                  label="Total Distance"
+                  value={totalDistanceRan}
+                  goal={distanceGoal}
+                  unit="km"
+                  milestones={distanceMilestones}
+                />
+                <ProgressBar 
+                  label="Total Time"
+                  value={totalTimeRanHours}
+                  goal={timeGoal}
+                  unit="hours"
+                />
               </div>
             </div>
+
           </div>
         </main>
       </div>
+
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <AddRun onSuccess={handleAddRunSuccess} />
       </Modal>
