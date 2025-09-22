@@ -175,3 +175,21 @@
     padding: 1rem;
   }
 }
+
+/* Add this class for the new leaderboard button */
+.navButton {
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  background-color: var(--color-background-muted);
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+
+.navButton:hover {
+  background-color: var(--color-border);
+  text-decoration: none;
+}

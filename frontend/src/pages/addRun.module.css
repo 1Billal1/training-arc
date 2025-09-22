@@ -114,3 +114,31 @@
   border-radius: 8px;
   text-align: center;
 }
+
+/* Add these new classes to the bottom of the file */
+.toggleContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: var(--color-background-muted);
+  border-radius: 8px;
+}
+
+.toggleLabel {
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.toggleSublabel {
+  display: block;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--color-text-secondary);
+}
+
+.toggleCheckbox {
+  transform: scale(1.5);
+  accent-color: var(--color-brand);
+  cursor: pointer;
+}
