@@ -1,6 +1,6 @@
 // src/components/ThemeToggle.jsx
 import React from 'react';
-import { useTheme } from '../context/ThemeContext';
+import { useTheme } from '../context/ThemeContext'; // Corrected path
 import styles from './themeToggle.module.css';
 
 function ThemeToggle() {
