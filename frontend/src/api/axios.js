@@ -10,4 +10,3 @@ const apiClient = axios.create({
 
 // 3. Export the instance so you can use it in your components
 export default apiClient;
-

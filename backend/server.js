@@ -49,7 +49,6 @@ app.post('/api/runs', async (req, res) => {
     const docRef = await db.collection('runs').add(runData);
 
     if (isRanked) {
-      // --- UPDATED: Call the new training score function ---
       await updateUserTrainingScore(userId, totalDistance, totalTimeSeconds);
     }
     
@@ -60,11 +59,10 @@ app.post('/api/runs', async (req, res) => {
   }
 });
 
-// --- UPDATED: Leaderboard now fetches 'trainingScore' ---
 app.get('/api/leaderboard', async (req, res) => {
   try {
     const snapshot = await db.collection('users')
-      .where('trainingScore', '>=', 0) // Query for users with a score
+      .where('trainingScore', '>=', 0)
       .orderBy('trainingScore', 'desc')
       .limit(100)
       .get();
@@ -74,8 +72,7 @@ app.get('/api/leaderboard', async (req, res) => {
         return {
             uid: data.uid,
             email: data.email,
-            // --- UPDATED: Use trainingScore instead of elo ---
-            trainingScore: data.trainingScore 
+            trainingScore: data.trainingScore
         }
     });
     res.status(200).json(leaderboard);
@@ -86,7 +83,7 @@ app.get('/api/leaderboard', async (req, res) => {
 });
 
 
-// --- NEW: Training Score Calculation Logic ---
+// --- Training Score Calculation Logic (CORRECTED) ---
 async function updateUserTrainingScore(userId, distanceKm, timeSeconds) {
   const userRef = db.collection('users').doc(userId);
   const userDoc = await userRef.get();
@@ -96,34 +93,27 @@ async function updateUserTrainingScore(userId, distanceKm, timeSeconds) {
     return;
   }
   
-  // --- Define Training Parameters ---
-  // Our goal pace for an 11km run in 60 minutes is ~327 seconds per km.
-  const GOAL_PACE_SECONDS_PER_KM = (60 * 60) / 11; // 327.27 seconds/km
+  const GOAL_PACE_SECONDS_PER_KM = (60 * 60) / 11;
 
-  // User's performance in this run
   const userPaceSecondsPerKm = timeSeconds / distanceKm;
   
-  // Provide a default score if the field is missing. Starting score is 1000.
+  // --- CORRECTION 1: Read 'trainingScore' and default to 1000 ---
   const currentScore = userDoc.data().trainingScore || 1000;
   
-  let result; // 1 for beating the goal pace, 0 for missing it
+  let result;
   if (userPaceSecondsPerKm < GOAL_PACE_SECONDS_PER_KM) {
-    result = 1; // "Win" - Faster than goal pace
+    result = 1;
   } else {
-    result = 0; // "Loss" - Slower than or equal to goal pace
+    result = 0;
   }
 
-  // --- Calculate Score Change ---
-  // The "opponent" is the goal pace, which we can represent with a static rating.
   const opponentRating = 1000;
-  // K-Factor determines the max score change. We'll make it dependent on run distance.
-  // A full 11km run has the max impact. A short run has very little.
-  const distanceModifier = Math.min(distanceKm / 11, 1.0); // Capped at 1.0 for runs > 11km
-  const K_FACTOR = Math.round(50 * distanceModifier); // Max score change is 50 points
+  const distanceModifier = Math.min(distanceKm / 11, 1.0);
+  const K_FACTOR = Math.round(50 * distanceModifier);
 
   const { playerRating: newScore } = calculate(currentScore, opponentRating, result, K_FACTOR);
 
-  // Update the user's score in Firestore, with a floor of 500
+  // --- CORRECTION 2: Write to 'trainingScore', not 'elo' ---
   await userRef.set({
     trainingScore: Math.max(500, Math.round(newScore))
   }, { merge: true });
