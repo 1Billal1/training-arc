@@ -9,7 +9,6 @@ import AddRun from "./addRun";
 import Modal from "../components/Modal";
 import RunSidebar from "../components/RunSidebar";
 import ProgressBar from "../pages/ProgressBar";
-import ThemeToggle from "../components/ThemeToggle"; // Corrected import location
 import styles from './dashboard.module.css';
 
 function Dashboard() {
@@ -89,7 +88,6 @@ function Dashboard() {
   const totalTimeRanSeconds = runs.reduce((sum, run) => sum + run.totalTimeSeconds, 0);
   const totalTimeRanHours = totalTimeRanSeconds / 3600;
 
-  // Define goals and milestones
   const distanceGoal = 250;
   const timeGoal = 36;
   const distanceMilestones = [
@@ -101,20 +99,7 @@ function Dashboard() {
 
   return (
     <div className={styles.pageWrapper}>
-      <header className={styles.header}>
-        <div>
-          <h1>Dashboard</h1>
-          <p>Logged in as: {currentUser?.email}</p>
-        </div>
-        <div className={styles.headerActions}>
-          <ThemeToggle />
-          <button onClick={handleLogout} className={styles.logoutButton}>
-            Logout
-          </button>
-        </div>
-      </header>
 
-      {/* The main container is now the dashboard grid */}
       <div className={styles.dashboardGrid}>
         <RunSidebar 
           runs={runs} 
@@ -131,9 +116,8 @@ function Dashboard() {
               </button>
             </div>
 
-            {/* Charts Section */}
             <div className={styles.chartsGrid}>
-              {/* Chart 1: Run Time */}
+              {/* Run Time Chart */}
               <div className={styles.chartContainer}>
                 <h3>Run Time</h3>
                 <ResponsiveContainer>
@@ -148,7 +132,7 @@ function Dashboard() {
                 </ResponsiveContainer>
               </div>
 
-              {/* Chart 2: Speed */}
+              {/* Speed Chart */}
               <div className={styles.chartContainer}>
                 <h3>Average Speed</h3>
                 <ResponsiveContainer>
@@ -163,7 +147,7 @@ function Dashboard() {
                 </ResponsiveContainer>
               </div>
 
-              {/* Chart 3: Distance */}
+              {/* Distance Chart */}
               <div className={styles.chartContainer}>
                 <h3>Distance</h3>
                 <ResponsiveContainer>
@@ -179,7 +163,6 @@ function Dashboard() {
               </div>
             </div>
 
-            {/* Progress Bars Section */}
             <div className={styles.progressSection}>
               <h3>Overall Progress</h3>
               <div className={styles.progressBarsContainer}>

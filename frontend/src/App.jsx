@@ -1,5 +1,3 @@
-// src/App.jsx
-
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SignIn from "./pages/signin";
 import SignUp from "./pages/signup";
@@ -7,38 +5,38 @@ import Dashboard from "./pages/Dashboard";
 import Leaderboard from './pages/Leaderboard';
 import Profile from './pages/Profile'; 
 import ProtectedRoute from "./components/ProtectedRoute";
+import Navbar from "./components/Navbar";  // Navbar import
 import { AuthProvider } from './context/AuthContext'; 
-import { ThemeProvider } from './context/ThemeContext'; // Import ThemeProvider
+import { ThemeProvider } from './context/ThemeContext'; 
 import './App.css'; 
 
 function App() {
   return (
     <Router>
       <AuthProvider>
-        <ThemeProvider> {/* Wrap the app in the ThemeProvider */}
+        <ThemeProvider>
           <div className="app-container">
+            {/* Navbar visible on all protected pages */}
             <Routes>
-              {/* Sign-in page */}
+              {/* Public routes */}
               <Route path="/" element={<SignIn />} />
-              
-              {/* Sign-up Route */}
               <Route path="/signup" element={<SignUp />} />
 
-              {/* Protected Home */}
+              {/* Protected routes */}
               <Route
                 path="/home"
                 element={
                   <ProtectedRoute>
+                    <Navbar /> {/* Navbar included */}
                     <Dashboard />
                   </ProtectedRoute>
-                  
                 }
               />
-            </Routes>
-            <Route
+              <Route
                 path="/leaderboard"
                 element={
                   <ProtectedRoute>
+                    <Navbar />
                     <Leaderboard />
                   </ProtectedRoute>
                 }
@@ -47,10 +45,12 @@ function App() {
                 path="/profile"
                 element={
                   <ProtectedRoute>
+                    <Navbar />
                     <Profile />
                   </ProtectedRoute>
                 }
               />
+            </Routes>
           </div>
         </ThemeProvider>
       </AuthProvider>

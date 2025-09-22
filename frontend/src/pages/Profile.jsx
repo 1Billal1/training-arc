@@ -20,7 +20,7 @@ function Profile() {
       return;
     }
     if (newUsername === currentUser.displayName) {
-        setMessage('Username is already set to this value.');
+        setMessage('You set the same username.');
         return;
     }
 

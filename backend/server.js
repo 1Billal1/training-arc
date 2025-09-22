@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const admin = require('firebase-admin');
+require('dotenv').config();
+
 
 // Check if the environment variable is set
 if (!process.env.FIREBASE_CREDENTIALS_JSON) {

@@ -3,6 +3,7 @@
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { auth } from '../firebase';
+import ThemeToggle from './ThemeToggle'; // Import ThemeToggle
 import styles from './navbar.module.css';
 
 function Navbar() {
@@ -31,16 +32,14 @@ function Navbar() {
     case '/profile': 
       pageTitle = 'Profile';
       break; 
-    // Add more cases here for future pages
     default:
       pageTitle = 'Dashboard';
-      
   }
 
   return (
     <nav className={styles.navbar}>
       <div className={styles.navLeft}>
-        {/* The title now changes dynamically */}
+        {/* Dynamic page title */}
         <h1 className={styles.pageTitle}>{pageTitle}</h1>
         <p className={styles.userInfo}>
           Logged in as: {currentUser?.displayName || currentUser?.email}
@@ -59,9 +58,17 @@ function Navbar() {
         >
           Leaderboard
         </NavLink>
-        <NavLink to="/profile" className={({ isActive }) => isActive ? `${styles.navLink} ${styles.activeLink}` : styles.navLink}>
+        <NavLink 
+          to="/profile" 
+          className={({ isActive }) => isActive ? `${styles.navLink} ${styles.activeLink}` : styles.navLink}
+        >
           Profile
         </NavLink>
+
+        {/* Theme toggle button */}
+        <ThemeToggle />
+
+        {/* Logout button */}
         <button onClick={handleLogout} className={styles.logoutButton}>
           Logout
         </button>
