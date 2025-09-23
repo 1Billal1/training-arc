@@ -1,0 +1,483 @@
+/* src/pages/battlepass.module.css */
+
+.pageContainer {
+  padding: 2rem;
+  background-color: var(--color-background);
+  min-height: 100vh;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  font-size: 18px;
+  color: var(--color-text-secondary);
+}
+
+/* Header with Logo */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--color-foreground);
+  padding: 1.5rem 2rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 16px var(--shadow-color);
+  margin-bottom: 2rem;
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.logoContainer h1 {
+  font-size: 28px;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.headerStats {
+  display: flex;
+  gap: 2rem;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.statLabel {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  margin-bottom: 0.25rem;
+}
+
+.statValue {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-brand);
+}
+
+/* Progress Card */
+.progressCard {
+  background-color: var(--color-foreground);
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 16px var(--shadow-color);
+  margin-bottom: 2rem;
+}
+
+.progressCard h2 {
+  font-size: 24px;
+  margin-bottom: 1.5rem;
+  color: var(--color-text-primary);
+}
+
+.currentTierInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background-color: var(--color-background-muted);
+  border-radius: 12px;
+}
+
+.tierBadge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tierNumber {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--color-brand);
+}
+
+.tierName {
+  font-size: 16px;
+  color: var(--color-text-secondary);
+}
+
+.distanceInfo p {
+  margin: 0.5rem 0;
+  font-size: 16px;
+}
+
+.maxTierReached {
+  text-align: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, var(--color-success) 0%, var(--color-brand) 100%);
+  border-radius: 12px;
+  color: white;
+}
+
+.maxTierReached h3 {
+  margin: 0 0 1rem 0;
+  font-size: 24px;
+}
+
+/* Rewards Container */
+.rewardsContainer {
+  background-color: var(--color-foreground);
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 16px var(--shadow-color);
+}
+
+.rewardsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.rewardsHeader h2 {
+  font-size: 24px;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.pageNavigation {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.pageDots {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.pageDot {
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-background);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.pageDot.active {
+  background: var(--color-brand);
+  color: white;
+  border-color: var(--color-brand);
+}
+
+.pageDot:hover:not(.active) {
+  border-color: var(--color-brand);
+  color: var(--color-brand);
+}
+
+/* Horizontal Scrolling Rewards */
+.rewardsScroller {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.rewardsTrack {
+  display: flex;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.rewardsPage {
+  /* Use CSS Grid for precise column control */
+  display: grid;
+  /* Create 5 equal columns that automatically calculate the gap */
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.5rem;
+
+  /* Ensure the page itself takes up exactly 100% of the container */
+  flex: 0 0 100%;
+  min-width: 100%;
+}
+
+/* Reward Cards */
+.rewardCard {
+  background-color: var(--color-background-muted);
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 3px solid var(--color-border);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  min-height: 300px;
+}
+
+.rewardCard.locked {
+  opacity: 0.7;
+  background-color: var(--color-background);
+}
+
+.rewardCard.unlocked {
+  border-color: var(--color-success);
+  background: linear-gradient(135deg, var(--color-background-muted) 0%, var(--color-foreground) 100%);
+}
+
+.rewardCard.currentTier {
+  border-color: var(--color-brand);
+  box-shadow: 0 8px 32px rgba(var(--color-brand-rgb), 0.3);
+  transform: scale(1.02);
+}
+
+.rewardCard.milestone {
+  border-color: gold;
+  background: linear-gradient(135deg, #fff9e6 0%, var(--color-background-muted) 100%);
+}
+
+.rewardCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px var(--shadow-color);
+}
+
+.rewardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.tierIndicator {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.milestoneBadge {
+  font-size: 18px;
+}
+
+.rewardImage {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1rem auto;
+  object-fit: contain;
+}
+
+.rewardInfo {
+  flex: 1;
+  text-align: center;
+}
+
+.rewardName {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--color-text-primary);
+}
+
+.rewardDesc {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  margin-bottom: 1rem;
+  line-height: 1.4;
+  min-height: 40px;
+}
+
+.rewardMeta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.rewardType {
+  font-size: 12px;
+  padding: 2px 8px;
+  background: var(--color-border);
+  border-radius: 12px;
+  color: var(--color-text-secondary);
+}
+
+.rewardReq {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-brand);
+}
+
+.rewardStatus {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.unlockedText {
+  color: var(--color-success);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.lockedText {
+  color: var(--color-text-secondary);
+  font-size: 14px;
+}
+
+.currentBadge {
+  background: var(--color-brand);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+/* Navigation Controls */
+.navButton {
+  padding: 10px 20px;
+  border: 2px solid var(--color-border);
+  border-radius: 8px;
+  background-color: var(--color-foreground);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  min-width: 100px;
+}
+
+.navButton:hover:not(:disabled) {
+  background-color: var(--color-brand);
+  color: white;
+  border-color: var(--color-brand);
+}
+
+.navButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Tier Progress */
+.tierProgress {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem;
+  background-color: var(--color-background-muted);
+  border-radius: 12px;
+  margin-top: 2rem;
+}
+
+.progressInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.progressLabel {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+.progressText {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.progressBarContainer {
+  flex: 1;
+  height: 12px;
+  background-color: var(--color-border);
+  border-radius: 6px;
+  margin: 0 2rem;
+  overflow: hidden;
+}
+
+.progressBar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-brand) 0%, var(--color-success) 100%);
+  border-radius: 6px;
+  transition: width 0.3s ease;
+}
+
+.progressPercentage {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-brand);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .rewardsPage {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .rewardCard {
+    flex: 0 0 calc(50% - 1rem);
+    min-width: 250px;
+  }
+}
+
+@media (max-width: 768px) {
+  .pageContainer {
+    padding: 1rem;
+  }
+  
+  .header {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  .rewardsPage {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .rewardCard {
+    flex: 0 0 100%;
+    max-width: 400px;
+  }
+  
+  .pageNavigation {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .tierProgress {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  .progressBarContainer {
+    margin: 0;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .progressCard,
+  .rewardsContainer {
+    padding: 1rem;
+  }
+  
+  .currentTierInfo {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  .navButton {
+    width: 100%;
+  }
+}
