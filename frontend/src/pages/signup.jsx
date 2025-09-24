@@ -39,7 +39,7 @@ function Signup() {
         createdAt: serverTimestamp()
       });
 
-      navigate('/home');
+      navigate('/dashboard');
     } catch (err) {
       // Handle specific Firebase errors
       if (err.code === 'auth/email-already-in-use') {

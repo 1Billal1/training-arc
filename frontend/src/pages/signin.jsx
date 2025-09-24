@@ -17,7 +17,7 @@ function Signin() {
 
   useEffect(() => {
     if (currentUser) {
-      navigate('/home');
+      navigate('/dashboard');
     }
   }, [currentUser, navigate]);
 
@@ -27,7 +27,7 @@ function Signin() {
     setLoading(true);
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate('/home');
+      navigate('/dashboard');
     } catch (err) {
       setError('Failed to log in. Please check your email and password.');
     }
