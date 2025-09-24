@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { auth, db } from '../firebase';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { collection, query, where, orderBy, getDocs, doc, deleteDoc, runTransaction, increment } from 'firebase/firestore';
+import { collection, query, where, orderBy, getDocs, doc, deleteDoc, runTransaction } from 'firebase/firestore';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { battlepassTiers } from '../battlepass-config';
 
@@ -29,10 +29,7 @@ function Dashboard() {
         orderBy("runDate", "asc")
       );
       const snapshot = await getDocs(q);
-      const runList = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
+      const runList = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       setRuns(runList);
     } catch (err) {
       console.error("Error fetching runs:", err);
@@ -44,6 +41,7 @@ function Dashboard() {
     fetchRuns();
   }, [fetchRuns]);
 
+  // --- MERGED: CORRECTED TRANSACTION LOGIC WITH EXPLOIT FIX ---
   const updateUserStatsAndRewards = async (distanceChange) => {
     if (!currentUser) return;
     const userDocRef = doc(db, "users", currentUser.uid);
@@ -56,24 +54,42 @@ function Dashboard() {
           return;
         }
 
-        const currentDistance = userDoc.data()?.totalDistance || 0;
-        const newTotalDistance = currentDistance + distanceChange;
+        const userData = userDoc.data();
+        const currentDistance = userData.totalDistance || 0;
+        const newTotalDistance = Math.max(0, currentDistance + distanceChange);
         
-        const currentTiers = userDoc.data()?.unlockedTiers || [];
-        const newUnlockedTiers = battlepassTiers // <-- FIX: Changed to battlepassTiers
+        const newUnlockedTiers = battlepassTiers
           .filter(level => newTotalDistance >= level.kmRequired)
           .map(level => level.tier);
 
-        const updatedTiers = [...new Set([...currentTiers, ...newUnlockedTiers])];
+        // This is the object we will use to update the document
+        const updateData = {
+          totalDistance: newTotalDistance,
+          unlockedTiers: newUnlockedTiers
+        };
 
-        transaction.update(userDocRef, {
-          totalDistance: increment(distanceChange),
-          unlockedTiers: updatedTiers
-        });
+        // --- THE EXPLOIT FIX ---
+        // Create a set of the newly unlocked reward URLs and texts for efficient lookup
+        const validRewardUrls = new Set(battlepassTiers.filter(t => newUnlockedTiers.includes(t.tier) && t.imageUrl).map(t => t.imageUrl));
+        const validRewardTexts = new Set(battlepassTiers.filter(t => newUnlockedTiers.includes(t.tier) && t.text).map(t => t.text));
+
+        // Check if the currently equipped badge is still valid. If not, un-equip it.
+        if (userData.equippedBadge && !validRewardUrls.has(userData.equippedBadge)) {
+          updateData.equippedBadge = null;
+        }
+
+        // Check if the currently equipped tagline is still valid. If not, un-equip it.
+        if (userData.equippedTagline && !validRewardTexts.has(userData.equippedTagline)) {
+          updateData.equippedTagline = null;
+        }
+        
+        // (Add similar checks for Banners or other reward types here if needed)
+
+        transaction.update(userDocRef, updateData);
       });
-      console.log("User stats and rewards updated successfully.");
+      console.log("User stats and rewards updated successfully and verified.");
     } catch (e) {
-      console.error("Transaction failed to update user stats: ", e);
+      console.error("Transaction failed: ", e);
     }
   };
 
@@ -90,7 +106,7 @@ function Dashboard() {
     if (window.confirm("Are you sure you want to delete this run?")) {
       try {
         await deleteDoc(doc(db, "runs", runIdToDelete));
-        updateUserStatsAndRewards(-runToDelete.totalDistance);
+        await updateUserStatsAndRewards(-runToDelete.totalDistance);
         fetchRuns();
       } catch (error) {
         console.error("Error deleting run: ", error);
@@ -99,6 +115,8 @@ function Dashboard() {
     }
   };
 
+  // ... (The rest of your component, including data prep and JSX, is correct)
+  
   const graphData = runs
     .filter(run => run.runDate && run.totalTimeSeconds > 0)
     .map(run => {
@@ -111,8 +129,8 @@ function Dashboard() {
       };
     });
 
-  const totalDistanceRan = runs.reduce((sum, run) => sum + run.totalDistance, 0);
-  const totalTimeRanSeconds = runs.reduce((sum, run) => sum + run.totalTimeSeconds, 0);
+  const totalDistanceRan = runs.reduce((sum, run) => sum + (run.totalDistance || 0), 0);
+  const totalTimeRanSeconds = runs.reduce((sum, run) => sum + (run.totalTimeSeconds || 0), 0);
   const totalTimeRanHours = totalTimeRanSeconds / 3600;
 
   const distanceGoal = 250;

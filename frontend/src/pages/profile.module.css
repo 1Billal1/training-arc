@@ -1,83 +1,37 @@
 /* src/pages/profile.module.css */
+.profileContainer { display: grid; grid-template-columns: 1fr 2fr; gap: 2.5rem; padding: 2.5rem; max-width: 1400px; margin: 0 auto; }
+.profileCard, .rewardsSection { background-color: white; padding: 2.5rem; border-radius: 16px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05); }
+.title { font-size: 24px; font-weight: 700; margin-bottom: 1.5rem; }
+.infoText { color: #64748b; margin-bottom: 2rem; }
+.form { display: flex; flex-direction: column; gap: 1.5rem; }
+.inputGroup { display: flex; flex-direction: column; gap: 0.5rem; }
+.inputGroup label { font-weight: 600; font-size: 14px; }
+.inputField { padding: 12px 14px; font-size: 16px; border: 1px solid #cbd5e0; border-radius: 8px; }
+.submitButton { padding: 14px; border: none; border-radius: 8px; font-weight: 600; color: white; background-color: #f97316; cursor: pointer; }
+.message { text-align: center; font-weight: 500; }
+.rewardCategory { margin-bottom: 2rem; }
+.rewardCategory { margin-bottom: 2rem; }
+.rewardCategory h3 { font-size: 20px; font-weight: 600; margin-bottom: 1rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem; }
+.rewardsGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 1rem; }
+.rewardItem { position: relative; border: 2px solid #e2e8f0; border-radius: 12px; padding: 1rem; text-align: center; cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+.rewardItem:hover { border-color: #f97316; transform: translateY(-4px); }
+.rewardItem img { width: 64px; height: 64px; margin: 0 auto 0.5rem; }
+.rewardItem span { font-size: 13px; font-weight: 500; }
+.equipped { border-color: #16a34a; background-color: #f0fdf4; }
+.equippedCheck { position: absolute; top: 8px; right: 8px; width: 24px; height: 24px; line-height: 24px; background-color: #16a34a; color: white; border-radius: 50%; font-weight: bold; }
+.noRewardsText { color: #64748b; font-style: italic; }
 
-.profileContainer {
-  padding: 2.5rem;
-  display: flex;
-  justify-content: center;
+/* --- NEW and UPDATED STYLES for Taglines --- */
+.taglineCard {
+  min-height: 140px; /* Give it a consistent height */
+  justify-content: space-around;
 }
-
-.profileCard {
-  width: 100%;
-  max-width: 36rem; /* 576px */
-  background-color: white;
-  padding: 2.5rem;
-  border-radius: 16px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
-}
-
-.title {
-  font-size: 24px;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-}
-
-.infoText {
-  color: #64748b;
-  margin-bottom: 2rem;
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.inputGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.inputGroup label {
-  font-weight: 600;
-  font-size: 14px;
-  color: #334155;
-}
-
-.inputField {
-  padding: 12px 14px;
+.taglineText {
   font-size: 16px;
-  border: 1px solid #cbd5e0;
-  border-radius: 8px;
-  transition: all 0.2s;
-}
-
-.inputField:focus {
-  outline: none;
-  border-color: #f97316;
-  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.25);
-}
-
-.submitButton {
-  padding: 14px;
-  border: none;
-  border-radius: 8px;
   font-weight: 600;
-  color: white;
-  background-color: #f97316; /* Brand orange */
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.submitButton:hover {
-  background-color: #ea580c;
-}
-
-.message {
-  text-align: center;
-  font-weight: 500;
-  padding: 0.75rem;
+  color: #1e293b;
+  padding: 1rem;
+  border: 1px dashed #cbd5e0;
   border-radius: 8px;
-  background-color: #f0fdf4; /* Light green for success */
-  color: #166534;
+  width: 100%;
 }

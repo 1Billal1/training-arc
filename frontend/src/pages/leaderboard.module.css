@@ -1,7 +1,7 @@
 /* src/pages/leaderboard.module.css */
 
 .pageContainer {
-  max-width: 1200px;
+  max-width: 900px;
   background-color: white;
   margin: 0 auto;
   padding: 2.5rem;
@@ -13,11 +13,31 @@
   margin-bottom: 2rem;
 }
 
+.userCell {
+  font-weight: 500;
+  color: #334155;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+
+  /* Add flexbox to align badge and name */
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
 /* Grid for leaderboard cards */
 .grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 columns on desktop */
-  gap: 2rem;
+  display: flex;
+  flex-direction: column; /* Stack the tables vertically */
+  gap: 2.5rem; /* Increase the space between the larger tables */
+}
+
+.loading {
+  text-align: center;
+  padding: 4rem;
+  font-size: 20px;
+  color: #64748b;
 }
 
 /* Make it responsive for smaller screens */

@@ -85,7 +85,7 @@ function BattlePass() {
         <div className={styles.headerStats}>
           <div className={styles.statItem}>
             <span className={styles.statLabel}>Total Distance</span>
-            <span className={styles.statValue}>{totalDistance} km</span>
+            <span className={styles.statValue}>{totalDistance.toFixed(2)} km</span>
           </div>
           <div className={styles.statItem}>
             <span className={styles.statLabel}>Tiers Unlocked</span>
@@ -103,7 +103,7 @@ function BattlePass() {
           </div>
           <div className={styles.distanceInfo}>
             <p>Next tier at: <strong>{nextTier?.kmRequired || 'Max Level'} km</strong></p>
-            <p>Remaining: <strong>{nextTier ? nextTier.kmRequired - totalDistance : 0} km</strong></p>
+            <p>Remaining: <strong>{nextTier ? (nextTier.kmRequired - totalDistance).toFixed(2) : 0} km</strong></p>
           </div>
         </div>
         
@@ -174,6 +174,11 @@ function BattlePass() {
                       <div 
                         key={level.tier} 
                         className={`${styles.rewardCard} ${isUnlocked ? styles.unlocked : styles.locked} ${isCurrentTier ? styles.currentTier : ''} ${isMilestoneTier ? styles.milestone : ''}`}
+                        // --- KEY CHANGE: Apply the colors from the config file ---
+                        style={{
+                          backgroundColor: level.color,
+                          borderColor: level.borderColor
+                        }}
                       >
                         <div className={styles.rewardHeader}>
                           <span className={styles.tierIndicator}>Tier {level.tier}</span>

@@ -33,6 +33,10 @@ export function AuthProvider({ children }) {
             // Use the auth display name if it exists, otherwise default to the email part
             username: user.displayName || user.email.split('@')[0],
             createdAt: serverTimestamp(),
+            totalDistance: 0,
+            unlockedTiers: [],
+            equippedBadge: null, 
+            equippedBanner: null,
           });
         }
       }

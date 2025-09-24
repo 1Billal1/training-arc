@@ -1,11 +1,9 @@
-// /pages/addRun.jsx
 import React, { useState, useEffect } from "react";
 import styles from './addRun.module.css';
 import { useAuth } from '../context/AuthContext';
 import { db } from '../firebase';
 import { collection, addDoc, serverTimestamp, Timestamp } from 'firebase/firestore';
 
-// Returns today's date in YYYY-MM-DD format for the date input default
 const getTodayDateString = () => {
   const today = new Date();
   const offset = today.getTimezoneOffset();
@@ -13,7 +11,6 @@ const getTodayDateString = () => {
   return todayWithOffset.toISOString().split('T')[0];
 }
 
-// Parses a time string (MM:SS) into total seconds
 const parseTimeToSeconds = (timeStr) => {
   if (!timeStr) return 0;
   const parts = timeStr.split(':');
@@ -22,7 +19,6 @@ const parseTimeToSeconds = (timeStr) => {
   return (minutes * 60) + seconds;
 };
 
-// Formats total seconds into a human-readable string (e.g., "1hr 14min 39sec")
 const formatTotalTime = (totalSeconds) => {
   if (totalSeconds <= 0) return "0sec";
   const hours = Math.floor(totalSeconds / 3600);
@@ -43,7 +39,6 @@ function AddRun({ onSuccess }) {
   const [lapTimes, setLapTimes] = useState([""]); 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
-  // New state for the run date, defaults to today
   const [runDate, setRunDate] = useState(getTodayDateString());
 
   useEffect(() => {
@@ -58,18 +53,14 @@ function AddRun({ onSuccess }) {
     });
   }, [lapsInput]);
 
-  // New input masking function for automatic time formatting
   const handleLapTimeChange = (index, value) => {
     const newLapTimes = [...lapTimes];
-    // Remove all non-digit characters
     const digits = value.replace(/\D/g, '');
     
     let formattedTime = '';
     if (digits.length > 0) {
-      // Add leading zero if minutes are a single digit
       formattedTime = digits.length > 2 ? digits.slice(0, 2) : digits;
       if (digits.length > 2) {
-        // Add colon and the rest of the digits
         formattedTime += ':' + digits.slice(2, 4);
       }
     }
@@ -83,7 +74,6 @@ function AddRun({ onSuccess }) {
   
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Validation check
     if (!totalDistance || !runDate || numLaps <= 0 || !currentUser) {
         setError("Please fill in all fields.");
         return;
@@ -91,21 +81,21 @@ function AddRun({ onSuccess }) {
     setIsSubmitting(true);
     setError('');
 
-    // Prepare data for Firestore
     const runData = {
         userId: currentUser.uid,
         totalDistance: parseFloat(totalDistance),
         numLaps: numLaps,
         lapTimes: lapTimes.filter(t => t),
         totalTimeSeconds: getTotalSeconds(),
-        runDate: Timestamp.fromDate(new Date(runDate + 'T00:00:00')), 
+        runDate: Timestamp.fromDate(new Date(runDate + 'T00:00:00')),
         createdAt: serverTimestamp()
     };
 
     try {
         await addDoc(collection(db, "runs"), runData);
         if (onSuccess) {
-            onSuccess();
+            // This is the key change: pass the data back to the dashboard.
+            onSuccess(runData);
         }
     } catch (err) {
         console.error("Error adding document: ", err);
@@ -121,7 +111,6 @@ function AddRun({ onSuccess }) {
     <div className={styles.runFormContainer}>
       <h2 className={styles.runTitle}>Add a New Run</h2>
       <form onSubmit={handleSubmit} className={styles.runForm}>
-        {/* Date Input */}
         <div>
           <h3 className={styles.inputLabel}>Date of Run</h3>
           <input
@@ -132,17 +121,29 @@ function AddRun({ onSuccess }) {
           />
         </div>
         
-        {/* Laps and Distance Inputs */}
         <div>
           <h3 className={styles.inputLabel}>Number of Laps</h3>
-          <input type="number" min="0" placeholder="Laps" className={styles.runInputField} value={lapsInput} onChange={(e) => setLapsInput(e.target.value)} />
+          <input
+            type="number"
+            min="0"
+            placeholder="e.g., 10"
+            className={styles.runInputField}
+            value={lapsInput}
+            onChange={(e) => setLapsInput(e.target.value)}
+          />
         </div>
+        
         <div>
           <h3 className={styles.inputLabel}>Total Distance (km)</h3>
-          <input type="number" placeholder="Distance Ran" className={styles.runInputField} value={totalDistance} onChange={(e) => setTotalDistance(e.target.value)} />
+          <input
+            type="number"
+            placeholder="e.g., 5.5"
+            className={styles.runInputField}
+            value={totalDistance}
+            onChange={(e) => setTotalDistance(e.target.value)}
+          />
         </div>
 
-        {/* Lap Times Section */}
         {numLaps > 0 && (
           <div className={styles.lapInputs}>
             <h3 className={styles.inputLabel}>Enter Times for Each Lap:</h3>
@@ -164,7 +165,6 @@ function AddRun({ onSuccess }) {
           </div>
         )}
 
-        {/* Laps Summary Section */}
         {numLaps > 0 && lapTimes.some(t => t) && (
           <div className={styles.lapList}>
             <h3>Laps Summary:</h3>

@@ -1,5 +1,3 @@
-/* src/components/leaderboardTable.module.css */
-
 .leaderboardCard {
   background-color: white;
   padding: 1.5rem;
@@ -16,13 +14,11 @@
 .table {
   width: 100%;
   border-collapse: collapse;
-  /* REMOVED: table-layout: fixed; to make the layout adjustable */
 }
 
 .table th, .table td {
   padding: 0.75rem;
   text-align: left;
-  /* Add vertical alignment for cells that might wrap */
   vertical-align: middle;
 }
 
@@ -39,7 +35,6 @@
 }
 
 .rankCell {
-  /* Give the Rank column a fixed, predictable width */
   width: 60px; 
 }
 
@@ -54,24 +49,48 @@
 }
 
 .userCell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.equippedReward {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+}
+
+.userAndTag {
+  display: flex;
+  flex-direction: column;
+}
+
+.username {
   font-weight: 500;
   color: #334155;
-  /* --- THIS IS THE KEY FIX FOR WRAPPING LONG TEXT --- */
-  /* This tells long words (like a username with no spaces) to break if needed */
   overflow-wrap: break-word;
-  word-wrap: break-word; /* Older browser support */
-  word-break: break-word; /* Even more robust */
+}
+
+.tagline {
+  font-size: 12px;
+  font-weight: 500;
+  color: #64748b;
+  background-color: #f1f5f9;
+  padding: 2px 8px;
+  border-radius: 12px;
+  margin-top: 0.25rem;
+  display: inline-block;
+  width: fit-content;
 }
 
 .statCell {
   font-weight: 600;
   color: #1e293b;
   text-align: right;
-  /* Give the Stat column a minimum width to prevent it from getting too squished */
   min-width: 110px; 
 }
 
-/* --- Ranking Colors --- */
+/* Ranking Colors */
 .gold .rank { background-color: #fffbeb; color: #f59e0b; }
 .silver .rank { background-color: #f1f5f9; color: #64748b; }
 .bronze .rank { background-color: #fff7ed; color: #d97706; }

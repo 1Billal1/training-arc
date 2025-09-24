@@ -1,5 +1,3 @@
-// src/components/LeaderboardTable.jsx
-
 import React from 'react';
 import styles from './leaderboardTable.module.css';
 
@@ -23,16 +21,34 @@ function LeaderboardTable({ title, data, statKey, formatStat }) {
           </tr>
         </thead>
         <tbody>
-          {data.map((user, index) => (
-            <tr key={user.userId} className={getRankClass(index)}>
-              <td className={styles.rankCell}>
-                <span className={styles.rank}>{index + 1}</span>
-              </td>
-              {/* --- FIX: Change `user.email` to `user.username` --- */}
-              <td className={styles.userCell}>{user.username}</td>
-              <td className={styles.statCell}>{formatStat(user[statKey])}</td>
-            </tr>
-          ))}
+          {data.map((user, index) => {
+            // --- THIS IS THE FIX ---
+            // The logic to create and apply the banner style has been removed.
+            
+            return (
+              <tr key={user.userId} className={getRankClass(index)}>
+                <td className={styles.rankCell}>
+                  <span className={styles.rank}>{index + 1}</span>
+                </td>
+                
+                {/* The `style` prop has been removed from this td */}
+                <td 
+                  className={styles.userCell} 
+                  title={user.username} 
+                >
+                  {user.equippedBadge && <img src={user.equippedBadge} alt="badge" className={styles.equippedReward} />}
+                  <div className={styles.userAndTag}>
+                    <span className={styles.username}>{user.username}</span>
+                    {user.equippedTagline && (
+                      <span className={styles.tagline}>{user.equippedTagline}</span>
+                    )}
+                  </div>
+                </td>
+                
+                <td className={styles.statCell}>{formatStat(user[statKey])}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>
