@@ -10,7 +10,7 @@ import AddRun from "./addRun";
 import Modal from "../components/Modal";
 import RunSidebar from "../components/RunSidebar";
 import ProgressBar from "../pages/ProgressBar";
-import styles from './Dashboard.module.css';
+import styles from './dashboard.module.css';
 
 function Dashboard() {
   const { currentUser } = useAuth();
