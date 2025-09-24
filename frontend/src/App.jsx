@@ -34,7 +34,7 @@ function App() {
             >
               {/* All the routes nested inside here will render within the Layout */}
               {/* This means they will all automatically have a Navbar */}
-              <Route path="/home" element={<Dashboard />} />
+              <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/leaderboard" element={<Leaderboard />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/battlepass" element={<BattlePass />} />
