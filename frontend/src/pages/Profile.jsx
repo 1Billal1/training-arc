@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { auth, db } from '../firebase';
 import { updateProfile } from 'firebase/auth';
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc, collection, query, where, getDocs } from "firebase/firestore";
 import { battlepassTiers } from '../battlepass-config';
 import styles from './profile.module.css';
 
@@ -12,6 +12,7 @@ function Profile() {
   const [newUsername, setNewUsername] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
+  const [isSyncing, setIsSyncing] = useState(false); // State for the sync button
 
   const fetchUserData = useCallback(async () => {
     if (!currentUser) return;
@@ -56,18 +57,49 @@ function Profile() {
     }
   };
 
-  // --- NEW: Function to handle unequipping an item ---
   const handleUnequipReward = async (rewardType) => {
     if (!currentUser) return;
     const fieldToUpdate = `equipped${rewardType}`;
     try {
-      // Set the field to null in Firestore
-      await updateDoc(doc(db, "users", currentUser.uid), {
-        [fieldToUpdate]: null
-      });
-      fetchUserData(); // Refresh the UI
+      await updateDoc(doc(db, "users", currentUser.uid), { [fieldToUpdate]: null });
+      fetchUserData();
     } catch (error) {
       console.error(`Failed to unequip ${rewardType}:`, error);
+    }
+  };
+
+  const handleSyncProgress = async () => {
+    if (!currentUser) return;
+
+    setIsSyncing(true);
+    setMessage('Syncing progress, please wait...');
+    try {
+      const q = query(collection(db, "runs"), where("userId", "==", currentUser.uid));
+      const runsSnapshot = await getDocs(q);
+
+      let totalDistance = 0;
+      runsSnapshot.forEach(doc => {
+        totalDistance += doc.data().totalDistance;
+      });
+
+      const unlockedTiers = battlepassTiers
+        .filter(level => totalDistance >= level.kmRequired)
+        .map(level => level.tier);
+      
+      const userDocRef = doc(db, "users", currentUser.uid);
+      await updateDoc(userDocRef, {
+        totalDistance: totalDistance,
+        unlockedTiers: unlockedTiers
+      });
+
+      setMessage('Sync successful! Your progress is now up to date.');
+      fetchUserData();
+
+    } catch (error) {
+      console.error("Failed to sync progress:", error);
+      setMessage('Error syncing progress. Please try again.');
+    } finally {
+      setIsSyncing(false);
     }
   };
 
@@ -75,7 +107,6 @@ function Profile() {
     tier => userData?.unlockedTiers?.includes(tier.tier)
   );
   const unlockedBadges = unlockedRewards.filter(r => r.type === 'Badge');
-  const unlockedBanners = unlockedRewards.filter(r => r.type === 'Banner');
   const unlockedTaglines = unlockedRewards.filter(r => r.type === 'Tagline');
 
   return (
@@ -99,7 +130,6 @@ function Profile() {
         <div className={styles.rewardCategory}>
           <h3>Badges</h3>
           <div className={styles.rewardsGrid}>
-            {/* --- NEW: The "None" option for Badges --- */}
             <div className={`${styles.rewardItem} ${!userData?.equippedBadge ? styles.equipped : ''}`} onClick={() => handleUnequipReward('Badge')}>
               <span className={styles.noneText}>None</span>
             </div>
@@ -128,6 +158,16 @@ function Profile() {
             ))}
           </div>
         </div>
+
+        {/* --- This is the re-added Sync Section --- */}
+        <div className={styles.syncSection}>
+          <h3 className={styles.title}>Account Sync</h3>
+          <p className={styles.infoText}>If your Battle Pass progress seems incorrect, click here to re-calculate it from your entire run history.</p>
+          <button onClick={handleSyncProgress} className={styles.syncButton} disabled={isSyncing}>
+            {isSyncing ? 'Syncing...' : 'Sync My Progress'}
+          </button>
+        </div>
+
       </div>
     </div>
   );
